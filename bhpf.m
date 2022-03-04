@@ -12,7 +12,7 @@ function [img_out, filter, spectrum] = bhpf(img, D0, n)
     Q = 2 * column;
     imgp = pad_image(img);
     img_out = zeros(row, column, channel);
-    spectrum = zeros(P, Q, channel);
+    spectrum = log(abs(fftshift(fft2(imgp))));
 
     for k = 1:channel
         imgp_channel = imgp(:,:,k);
@@ -24,9 +24,5 @@ function [img_out, filter, spectrum] = bhpf(img, D0, n)
         HPF_f = H.*F;
         HPF_f = real(ifft2(HPF_f));
         img_out(:,:,k) = HPF_f(1:row, 1:column);
-
-        Fc = fftshift(fft2(imgp_channel));
-        S2 = log(1+abs(Fc));
-        spectrum(:,:,k) = S2;
     end
 end
