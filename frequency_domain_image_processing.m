@@ -43,3 +43,16 @@ img_bhpf = bhpf(img);
 subplot(2, 2, 4);
 imshow(img_bhpf);
 title('Butterworth High Pass Filtered');
+
+figure,
+img_path = "img/dark_image.png";
+img = imread(img_path);
+subplot(1, 4, 1); imshow(img); title('Original Image');
+
+[M,N] = size(img);
+[img_out, spectrum_i, spectrum_f] = frequency_domain_image_brightening(img, 2.3);
+subplot(1,4,2); imshow(spectrum_i,[]); title('Spectrum Initial');
+subplot(1,4,3); imshow(spectrum_f,[]); title('Spectrum Final');
+subplot(1,4,4); imshow(img_out); title('Final Image');
+figure,
+imshow(img_out); title('Final Image');
