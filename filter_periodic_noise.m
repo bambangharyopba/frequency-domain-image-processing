@@ -1,4 +1,4 @@
-function [img_out, spectrum_i, filter, spectrum_f] = filter_periodic_noise(img, amplitude_threshold, r1_i, r1_f, c1_i, c1_f, r2_i, r2_f, c2_i, c2_f)
+function [img_out, spectrum_i, filter, spectrum_f, minS, maxS] = filter_periodic_noise(img, amplitude_threshold, r1_i, r1_f, c1_i, c1_f, r2_i, r2_f, c2_i, c2_f)
 %filter_periodic_noise Restore image with periodic noise
 %   img                     : image
 %   amplitude_threshold     : maximum spectrum value
@@ -9,6 +9,8 @@ function [img_out, spectrum_i, filter, spectrum_f] = filter_periodic_noise(img, 
     F = fft2(im2double(img));
     F2 = fftshift(F); % move origin to center of frequency rectangle
     S = log(abs(F2)); % compute magnitude and brighten display
+    minS = min(S(:));
+    maxS = max(S(:));
 
     % Create filter
     filter = S > amplitude_threshold;
