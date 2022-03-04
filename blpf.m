@@ -7,22 +7,26 @@ function [img_out, filter, spectrum] = blpf(img, D0, n)
         D0 = 50;
     end
 
-    [M, N] = size(img);
-    P = 2 * M;
-    Q = 2 * N;
-
+    [row, column, channel] = size(img);
+    P = 2 * row;
+    Q = 2 * column;
     imgp = pad_image(img);
-    F = fft2(double(imgp));
+    img_out = zeros(row, column, channel);
+    spectrum = zeros(P, Q, channel);
 
-    D = mask(P, Q);
-    H = 1./(1 + (D./D0).^(2*n));
-    filter = fftshift(H);
+    for k = 1:channel
+        imgp_channel = imgp(:,:,k);
+        F = fft2(double(imgp_channel));
+        D = mask(P, Q);
+        H = 1./(1 + (D./D0).^(2*n));
+        filter = fftshift(H);
 
-    img_out = H.*F;
-    img_out = real(ifft2(img_out));
-    img_out = img_out(1:M, 1:N);
+        LPF_f = H.*F;
+        LPF_f = real(ifft2(LPF_f));
+        img_out(:,:,k) = LPF_f(1:row, 1:column);
 
-    Fc = fftshift(fft2(imgp));
-    S2 = log(1+abs(Fc));
-    spectrum = S2;
-end 
+        Fc = fftshift(fft2(imgp_channel));
+        S2 = log(1+abs(Fc));
+        spectrum(:,:,k) = S2;
+    end
+end

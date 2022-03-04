@@ -1,5 +1,5 @@
 figure,
-img_path = "img/cameraman.tif";
+img_path = "img/peppers.tif";
 
 img = imread(img_path);
 subplot(2, 2, 1);
@@ -22,8 +22,6 @@ imshow(img_blpf);
 title('Butterworth Low Pass Filtered');
 
 figure,
-img_path = "img/cameraman.tif";
-
 img = imread(img_path);
 subplot(2, 2, 1);
 imshow(img);
@@ -54,5 +52,3 @@ subplot(1, 4, 1); imshow(img); title('Original Image');
 subplot(1,4,2); imshow(spectrum_i,[]); title('Spectrum Initial');
 subplot(1,4,3); imshow(spectrum_f,[]); title('Spectrum Final');
 subplot(1,4,4); imshow(img_out); title('Final Image');
-figure,
-imshow(img_out); title('Final Image');

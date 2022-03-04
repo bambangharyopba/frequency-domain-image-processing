@@ -1,18 +1,19 @@
 function [imgp, P, Q] = pad_image(img)
-    [M, N] = size(img);
-    P = 2 * M;
-    Q = 2 * N;
+    [row, column, channel] = size(img);
+    P = 2 * row;
+    Q = 2 * column;
 
     img = im2double(img);
-    imgp = zeros(P,Q);
-    for i = 1:P
-        for j = 1:Q
-            if i <= M && j <= N
-                imgp(i,j) = img(i,j);
-            else
-                imgp(i,j) = 0;
+    imgp = zeros(P, Q, channel);
+    for k = 1:channel
+        for i = 1:P
+            for j = 1:Q
+                if i <= row && j <= column
+                    imgp(i,j,k) = img(i,j,k);
+                else
+                    imgp(i,j,k) = 0;
+                end
             end
         end
     end
 end
-
