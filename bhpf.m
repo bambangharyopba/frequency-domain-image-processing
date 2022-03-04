@@ -1,6 +1,10 @@
-function [img_out, filter, spectrum] = bhpf(img, n)
+function [img_out, filter, spectrum] = bhpf(img, D0, n)
     if ~exist('n','var')
         n = 1;
+    end
+
+    if ~exist('D0','var')
+        D0 = 50;
     end
 
     [M, N] = size(img);
@@ -10,10 +14,9 @@ function [img_out, filter, spectrum] = bhpf(img, n)
     imgp = pad_image(img);
     F = fft2(double(imgp));
 
-    D0 = 50;
     D = mask(P, Q);
-    H = 1./(1+(D0./D).^(2*n));
-    filter = H;
+    H = 1./(1 + (D0./D).^(2*n));
+    filter = fftshift(H);
 
     img_out = H.*F;
     img_out = real(ifft2(img_out));

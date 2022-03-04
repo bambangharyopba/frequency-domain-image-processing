@@ -1,4 +1,8 @@
-function [img_out, filter, spectrum] = ihpf(img)
+function [img_out, filter, spectrum] = ihpf(img, D0)
+    if ~exist('D0','var')
+        D0 = 50;
+    end
+
     [M, N] = size(img);
     P = 2 * M;
     Q = 2 * N;
@@ -6,10 +10,9 @@ function [img_out, filter, spectrum] = ihpf(img)
     imgp = pad_image(img);
     F = fft2(double(imgp));
 
-    D0 = 50;
     D = mask(P, Q);
     H = double(D > D0);
-    filter = H;
+    filter = fftshift(H);
 
     img_out = H.*F;
     img_out = real(ifft2(img_out));
